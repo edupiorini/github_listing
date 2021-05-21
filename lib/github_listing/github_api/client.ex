@@ -6,14 +6,13 @@ defmodule GithubListing.GithubApi.Client do
   use Tesla
 
   alias GithubListing.Error
-  alias GithubListing.GithubApi.Parser
+  alias GithubListing.Repository
 
   plug Tesla.Middleware.BaseUrl, "https://api.github.com/users/"
   plug Tesla.Middleware.Headers, [{"user-agent", "GithubListing"}]
   plug Tesla.Middleware.JSON
 
-  @spec get_user(String.t()) :: {:ok, {[map()]}}
-  def get_user(username) do
+  def get_repo_list(username) do
     "#{username}/repos"
     |> get()
     |> handle_get()
@@ -21,8 +20,7 @@ defmodule GithubListing.GithubApi.Client do
 
   # Success case
   defp handle_get({:ok, %Tesla.Env{status: 200, body: body}}) do
-    body
-    |> Parser.parse_info()
+    with repo_list <- Enum.map(body, fn x -> map_repo(x) end), do: {:ok, repo_list}
   end
 
   # Not Found
@@ -32,4 +30,8 @@ defmodule GithubListing.GithubApi.Client do
 
   defp handle_get({:ok, %Tesla.Env{status: 403}}),
     do: {:error, Error.build(:forbidden, "Forbidden! No User Agent sent on header")}
+
+  defp map_repo(repo) do
+    with {:ok, repo} <- Repository.build(repo), do: repo
+  end
 end

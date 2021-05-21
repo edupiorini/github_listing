@@ -9,5 +9,5 @@ defmodule GithubListing do
 
   alias GithubListing.GithubApi.Client
 
-  defdelegate list_repository(username), to: Client, as: :get_user
+  defdelegate list_repositories(username), to: Client, as: :get_repo_list
 end
