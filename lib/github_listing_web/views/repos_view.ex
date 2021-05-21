@@ -3,8 +3,9 @@ defmodule GithubListingWeb.ReposView do
 
   alias GithubListing.Repository
 
-  def render("repositories.json", %{repos: [%Repository{} | _rest]} = repos) do
+  def render("repositories.json", %{repos: [%Repository{} | _rest] = repos}) do
     %{
+      message: "Repositories found!",
       repos: repos
     }
   end

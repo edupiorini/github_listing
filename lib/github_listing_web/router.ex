@@ -8,7 +8,7 @@ defmodule GithubListingWeb.Router do
   scope "/api", GithubListingWeb do
     pipe_through :api
 
-    get "/repositories/:username", ReposController, :index
+    get "/:username/repositories", ReposController, :index
   end
 
   # Enables LiveDashboard only for development
