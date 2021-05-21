@@ -5,6 +5,7 @@ defmodule GithubListing.GithubApi.Client do
 
   use Tesla
 
+  alias GithubListing.Error
   alias GithubListing.GithubApi.Parser
 
   plug Tesla.Middleware.BaseUrl, "https://api.github.com/users/"
@@ -26,5 +27,9 @@ defmodule GithubListing.GithubApi.Client do
 
   # Not Found
 
-  # defp handle_get({:ok, %Tesla.Env{status: 404}}), do: {:error, "Not Found"}
+  defp handle_get({:ok, %Tesla.Env{status: 404}}),
+    do: {:error, Error.build(:not_found, "Repo not found")}
+
+  defp handle_get({:ok, %Tesla.Env{status: 403}}),
+    do: {:error, Error.build(:forbidden, "Forbidden! No User Agent sent on header")}
 end

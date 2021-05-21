@@ -6,4 +6,8 @@ defmodule GithubListing do
   Contexts are also responsible for managing your data, regardless
   if it comes from the database, an external API or others.
   """
+
+  alias GithubListing.GithubApi.Client
+
+  defdelegate list_repository(username), to: Client, as: :get_user
 end
