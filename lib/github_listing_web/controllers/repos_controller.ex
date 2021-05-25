@@ -1,6 +1,10 @@
 defmodule GithubListingWeb.ReposController do
   use GithubListingWeb, :controller
 
+  alias GithubListingWeb.FallbackController
+
+  action_fallback(FallbackController)
+
   def index(conn, %{"username" => username}) do
     with {:ok, repos} <- GithubListing.list_repositories(username) do
       conn
