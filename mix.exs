@@ -35,6 +35,7 @@ defmodule GithubListing.MixProject do
     [
       {:tesla, "~> 1.4.0"},
       {:pbkdf2_elixir, "~> 1.4"},
+      {:guardian, "~> 2.0"},
 
       # optional, but recommended adapter
       {:hackney, "~> 1.17.0"},
