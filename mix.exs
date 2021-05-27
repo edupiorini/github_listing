@@ -34,6 +34,7 @@ defmodule GithubListing.MixProject do
   defp deps do
     [
       {:tesla, "~> 1.4.0"},
+      {:pbkdf2_elixir, "~> 1.4"},
 
       # optional, but recommended adapter
       {:hackney, "~> 1.17.0"},
