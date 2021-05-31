@@ -9,7 +9,7 @@ defmodule GithubListing.User do
 
   @required_params [:email, :password]
 
-  @derive {Jason.Encoder, only: [:id, :email]}
+  @derive {Jason.Encoder, only: [:id, :email, :password]}
 
   schema "users" do
     field :email, :string
