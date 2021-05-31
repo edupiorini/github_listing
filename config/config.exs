@@ -10,6 +10,14 @@ use Mix.Config
 config :github_listing,
   ecto_repos: [GithubListing.Repo]
 
+config :github_listing, GithubListingWeb.Auth.Pipeline,
+  module: GithubListingWeb.Auth.Guardian,
+  error_handler: GithubListingWeb.Auth.ErrorHandler
+
+config :github_listing, GithubListingWeb.Auth.Guardian,
+  issuer: "github_listing",
+  secret_key: "BZA2fAn8xVSSz6Y8A50pGGB54SOXo4lD2adcSrpDrqVhVpGZPo9tnwiJ3427+K4S"
+
 # Configures the endpoint
 config :github_listing, GithubListingWeb.Endpoint,
   url: [host: "localhost"],
