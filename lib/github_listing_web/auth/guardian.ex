@@ -10,4 +10,15 @@ defmodule GithubListingWeb.Auth.Guardian do
     |> Map.get("sub")
     |> GithubListing.get_user()
   end
+
+  def authenticate(%{"id" => user_id, "password" => password}) do
+    with {:ok, %User{password_hash: hash} = user} <- GithubListing.get_user(user_id),
+         true <- Pbkdf2.verify_pass(password, hash),
+         {:ok, token, _claims} <- encode_and_sign(user) do
+      {:ok, token}
+    else
+      false -> {:error, Error.build(:unauthorized, "Please, verify your credentials")}
+      error -> error
+    end
+  end
 end
